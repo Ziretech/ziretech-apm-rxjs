@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Subscription, Observable, EMPTY, of } from 'rxjs';
 
-import { catchError, } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { ProductService } from './product.service';
+import { Product } from './product';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -16,10 +17,11 @@ export class ProductListComponent implements OnInit {
   categories;
 
   products$ = this.productService.products$
-  .pipe(catchError(error => {
-    this.errorMessage = error;
-    return of([]);
-  }));
+    .pipe(map((products: Product[]) => products.map(prod => ({...prod, price: prod.price * 1.5})) ))
+    .pipe(catchError(error => {
+      this.errorMessage = error;
+      return of([]);
+    }));
 
   constructor(private productService: ProductService) { }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { ProductCategory } from './product-category';
 
@@ -12,6 +13,9 @@ export class ProductCategoryService {
   private productCategoriesUrl = 'api/productCategories';
 
   constructor(private http: HttpClient) { }
+
+  categories$ = this.http.get(this.productCategoriesUrl)
+    .pipe(catchError(this.handleError));
 
   private handleError(err: any) {
     // in a real world app, we may send the server to some remote logging infrastructure
