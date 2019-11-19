@@ -14,7 +14,7 @@ export class ProductCategoryService {
 
   constructor(private http: HttpClient) { }
 
-  categories$ = this.http.get(this.productCategoriesUrl)
+  categories$ = this.http.get<ProductCategory[]>(this.productCategoriesUrl)
     .pipe(catchError(this.handleError));
 
   private handleError(err: any) {
