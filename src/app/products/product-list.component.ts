@@ -26,7 +26,7 @@ export class ProductListComponent {
     }))
     .pipe(catchError(error => {
       this.errorMessage = error;
-      return of([]);
+      return EMPTY;
     }));
 
   categories$ = this.categoryService.categories$;
