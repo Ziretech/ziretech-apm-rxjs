@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 import { ProductService } from '../product.service';
 
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
+import { Subject, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'pm-product-detail',
@@ -10,9 +11,14 @@ import { tap } from 'rxjs/operators';
 })
 export class ProductDetailComponent {
   pageTitle = 'Product Detail';
-  errorMessage = '';
   selectedProduct$ = this.productService.selectedProduct$
-    .pipe(tap(m => console.log(m)));
+    .pipe(catchError(error => {
+      this.errorMessageSubject.next(error);
+      return EMPTY;
+    }));
+
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
   constructor(private productService: ProductService) { }
 
