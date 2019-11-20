@@ -7,6 +7,8 @@ import { catchError } from 'rxjs/operators';
 import { ProductService } from './product.service';
 import { Product } from './product';
 
+import { ProductCategoryService } from '../product-categories/product-category.service';
+
 @Component({
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
@@ -22,7 +24,10 @@ export class ProductListComponent {
       return of([]);
     }));
 
-  constructor(private productService: ProductService) { }
+  categories$ = this.categoryService.categories$;
+
+  constructor(private productService: ProductService,
+              private categoryService: ProductCategoryService) { }
 
   onAdd(): void {
     console.log('Not yet implemented');
