@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, throwError, combineLatest, Subject } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, shareReplay } from 'rxjs/operators';
 
 import { Product } from './product';
 import { Supplier } from '../suppliers/supplier';
@@ -29,7 +29,8 @@ export class ProductService {
         {
           ...prod, 
           price: prod.price * 1.5,
-          category: categories.find(c => c.id === prod.categoryId).name})) )
+          category: categories.find(c => c.id === prod.categoryId).name})) ),
+      shareReplay(1)
     );
 
   private selectedProductIdSubject = new Subject<number>();
