@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Subscription, EMPTY } from 'rxjs';
+import { Subscription, EMPTY, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Product } from '../product';
@@ -20,9 +20,11 @@ export class ProductListAltComponent {
       return EMPTY;
     }));
 
+  selectedProduct$ = this.productService.selectedProduct$;
+
   constructor(private productService: ProductService) { }
 
   onSelected(productId: number): void {
-    console.log('Not yet implemented');
+    this.productService.selectProduct(productId);
   }
 }

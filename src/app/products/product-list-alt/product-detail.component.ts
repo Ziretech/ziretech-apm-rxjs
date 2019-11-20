@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { ProductService } from '../product.service';
 
+import { tap } from 'rxjs/operators';
+
 @Component({
   selector: 'pm-product-detail',
   templateUrl: './product-detail.component.html'
@@ -9,7 +11,8 @@ import { ProductService } from '../product.service';
 export class ProductDetailComponent {
   pageTitle = 'Product Detail';
   errorMessage = '';
-  product;
+  selectedProduct$ = this.productService.selectedProduct$
+    .pipe(tap(m => console.log(m)));
 
   constructor(private productService: ProductService) { }
 
